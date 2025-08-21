@@ -2,33 +2,38 @@ import flet as ft
 import ollama
 
 # Function to generate examples and grammar explanation
+
 def generate_examples(topic):
     prompt = f"""
-    You are an English teacher. 
-    For the topic '{topic}', do the following in a concise way:
+    You are an English teacher. Explain the topic '{topic}' in a clear, concise, and structured way.
 
-    1. Give a short explanation of the grammar rule.
-    2. Provide a brief formula or structure.
-    3. Create 10 short English sentences illustrating the rule. Include examples in affirmative, negative, and interrogative forms.
-    4. Provide the Portuguese (pt-br) translation for each sentence, except for the English words.
+    Follow exactly this format in your response:
 
-    ## Regra:
-    - explanation in English and translation of the explanation into Portuguese (pt-br).
+    ## Rule:
+    - Explanation in English.
 
-    ## Fórmula:
-    - structure in English and translation of the structure into Portuguese (pt-br).
+    ## Formula:
+    - Grammar structure or formula in English.
 
+    ## Examples:
+    Provide 10 short, completed English sentences illustrating the rule, including affirmative, negative, and interrogative forms.
+    Each sentence should be followed by its Portuguese (pt-br) translation, but do not translate the English words.
 
-    ## Exemplos:
-    - English sentence 1 - Portuguese (pt-br) translation.
-    - English sentence 2 - Portuguese (pt-br) translation.
+    Example format:
+    1. English sentence - Translation: Portuguese sentence
+    2. English sentence - Translation: Portuguese sentence
     ...
+    10. English sentence - Translation: Portuguese sentence
     """
-    response = ollama.chat(model="deepseek-r1:latest", messages=[
-        {"role": "system", "content": "You are an English teacher."},
-        {"role": "user", "content": prompt}
-    ])
+    response = ollama.chat(
+        model="deepseek-r1:latest",
+        messages=[
+            {"role": "system", "content": "You are an English teacher."},
+            {"role": "user", "content": prompt}
+        ]
+    )
     return response['message']['content']
+
 
 # Define topics per level
 TOPICS = {
